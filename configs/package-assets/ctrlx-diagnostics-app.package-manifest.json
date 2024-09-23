@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.boschrexroth.com/ctrlx-automation/ctrlx-core/apps/package-manifest/package-manifest.v1.3.schema.json",
+  "version": "2.4.0",
+  "id": "ctrlx-diagnostics-app",
+  "scopes-declaration": [
+    {
+      "identifier": "ctrlx-diagnostics-app.web",
+      "name": "Python-Webserver",
+      "description": "Data Layer access permissions over webpage",
+      "scopes": [
+        {
+          "identifier": "ctrlx-diagnostics-app.r",
+          "name": "Read",
+          "description": "Only read commands can be submitted over webpage"
+        },
+        {
+          "identifier": "ctrlx-diagnostics-app.rw",
+          "name": "Read and write",
+          "description": "Read and write commands can be submitted over webpage"
+        }
+      ]
+    } 
+  ],
+  "services": {
+    "proxyMapping": [
+      {
+        "name": "ctrlx-diagnostics-app",
+        "url": "/webserver",
+        "binding": ":5000",
+        "restricted": []
+      }
+    ]
+  },
+  "menus": {
+    "sidebar": [
+      {
+        "id": "ctrlx-diagnostics-app",
+        "target": "_blank",
+        "title": "Webserver",
+        "icon": "Bosch-Ic-worldwideweb",
+        "link": "https://${hostname}/webserver"
+      }
+    ],
+    "settings": [
+    ],
+    "overview": [
+      {
+        "id": "ctrlx-diagnostics-app",
+        "title": "Webserver",
+        "icon": "Bosch-Ic-worldwideweb",
+        "link": "https://${hostname}/webserver"
+      }
+    ]    
+  },  
+  "configuration": {
+    "appDirectories": [
+      {
+        "name": "AppDataSamplePy",
+        "description": "Python AppData Sample",
+        "icon": "bosch-ic-directory",
+        "scopes": [],
+        "copyOnLoad": true
+      }
+    ]
+  }
+}

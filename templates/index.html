@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ctrlX Diagnostics Registration</title>
+    <link rel="stylesheet" href="{{ url_for('webserver.static', filename='css/styles.css') }}">
+</head>
+<body>
+    <h1>ctrl<span class="red-x">X</span> Diagnostics Registration</h1>
+    <h2>Upload CSV File:</h2>
+    <form action="/webserver/api/upload_file" method="POST" enctype="multipart/form-data" class="upload-form">
+        <input type="file" name="file" class="file-input">
+        <button type="submit">Upload</button>
+    </form>
+
+    
+    <h2>Create JSON Files:</h2>
+    <form action="/webserver/api/update" method="post">
+        <button type="submit" {% if message or not successfully_saved %}disabled{% endif %}>
+            {% if message %}
+                Unable to Proceed - Check Messages            
+            {% else %}
+                Create JSON Files
+            {% endif %}
+        </button>
+    </form>
+ 
+    
+    <h2>Select JSON File To Register:</h2>
+    <form action="/webserver/api/datalayer/register" method="post">
+        <select name="selected_file" id="jsonFileSelect">
+            {% if json_files is none %}
+                <option value="">No files available. Please create JSON files.</option>
+            {% elif not json_files %}
+                <option value="">No JSON files found.</option>
+            {% else %}
+                {% for file in json_files %}
+                    <option value="{{ file }}">{{ file }}</option>
+                {% endfor %}
+            {% endif %}
+        </select>
+        <button type="submit" {% if json_files is none or not json_files or registered_json %}disabled{% endif %}>
+            {% if registered_json %}
+                JSON registered
+            {% else %}
+                Register JSON
+            {% endif %}
+        </button>
+    </form>
+
+    
+    <h2>Unregister JSON File:</h2>
+    <form action="/webserver/api/datalayer/unregister" method="post">
+        <button type="submit">Unregister JSON</button>
+    </form>    
+
+    
+    <h2>Error Message:</h2>
+    
+    {% if message %}
+        <ul>
+            {% for key, value in message.items() %}
+                <li><strong>{{ key }}:</strong> {{ value }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <h2>Info:</h2>   
+    
+    {% if registered_json %}
+        <p>Registered JSON: {{ registered_json }}</p>
+    {% else %}
+        <p>No JSON file registered.</p>
+    {% endif %}
+    
+</body>
+</html>
